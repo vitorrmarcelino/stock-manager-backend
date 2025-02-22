@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity(name = "product")
 @Table(name = "product")
 @Getter
@@ -24,4 +26,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "product_company_fk", nullable = false)
     private Company company;
+
+    @OneToMany(mappedBy = "product")
+    private List<StockProduct> stocksWithThisProduct;
 }

@@ -20,4 +20,10 @@ public class User {
 
     @Column(name = "user_password", length = 255, nullable = false)
     private String password;
+
+    @OneToOne(mappedBy = "user")
+    private Company company;
+
+    @OneToOne(mappedBy = "user")
+    private  Employee employee;
 }

@@ -1,10 +1,13 @@
 package com.vitorrmarcelino.stock_manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Table(name="employee")
 @Entity(name="employee")
@@ -31,4 +34,12 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "employee_company_fk", nullable = false)
     private Company company;
+
+    @ManyToMany
+    @JoinTable(
+            name = "stock_employee",
+            joinColumns = @JoinColumn(name="stock_employee_employee_fk"),
+            inverseJoinColumns = @JoinColumn(name = "stock_employee_stock_fk")
+    )
+    private List<Stock> stocksWithAccess;
 }

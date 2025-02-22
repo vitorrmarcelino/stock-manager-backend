@@ -7,7 +7,7 @@ WORKDIR /app
 
 RUN mvn clean install -DskipTests
 
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 COPY --from=build /app/target/stock-manager-0.0.1-SNAPSHOT.jar /app/app.jar
 

@@ -1,10 +1,7 @@
 package com.vitorrmarcelino.stock_manager.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -20,7 +17,7 @@ public class Company {
     @Column(name = "company_id")
     private Integer id;
 
-    @Column(name = "company_name", length = 50, nullable = false, unique = true)
+    @Column(name = "company_name", length = 50, nullable = false)
     private String name;
 
     @Column(name = "company_cnpj", length = 14, nullable = false, unique = true)

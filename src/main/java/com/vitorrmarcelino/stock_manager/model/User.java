@@ -1,9 +1,10 @@
 package com.vitorrmarcelino.stock_manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name="user")
+@Table(name="\"user\"")
 @Entity(name="user")
 @Getter
 @Setter

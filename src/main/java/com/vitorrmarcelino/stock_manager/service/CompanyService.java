@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,7 +33,8 @@ public class CompanyService {
         try {
             User user = new User();
             user.setEmail(data.email());
-            user.setPassword(data.password());
+            user.setPassword(new BCryptPasswordEncoder().encode(data.password()));
+            user.setIsSuper(false);
             user = userRepository.save(user);
 
             Company company = new Company();

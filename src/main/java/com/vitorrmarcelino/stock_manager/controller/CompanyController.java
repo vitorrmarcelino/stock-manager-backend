@@ -12,10 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.MethodNotAllowedException;
 
 @RestController
@@ -31,10 +28,15 @@ public class CompanyController {
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity createCompany(@Valid @RequestBody CompanyRequestDTO companyRequestDTO){
             CompanySimpleResponseDTO res = companyService.createCompany(companyRequestDTO);
             return ResponseEntity.ok(res);
+    }
+
+    @GetMapping("/teste")
+    public ResponseEntity teste(){
+        return ResponseEntity.ok("Hello World!");
     }
 
 }

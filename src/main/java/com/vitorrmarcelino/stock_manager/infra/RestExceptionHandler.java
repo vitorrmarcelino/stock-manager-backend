@@ -1,11 +1,15 @@
 package com.vitorrmarcelino.stock_manager.infra;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.vitorrmarcelino.stock_manager.dto.ErrorMessageResponseDTO;
 import com.vitorrmarcelino.stock_manager.exception.CnpjAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.EmailAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.PasswordsDoesntMatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +36,18 @@ public class RestExceptionHandler {
     private ResponseEntity<List<ErrorMessageResponseDTO>> cnpjAlreadyUsedHandler(CnpjAlreadyUsedException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(List.of(new ErrorMessageResponseDTO(e.getMessage())));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    private ResponseEntity<List<ErrorMessageResponseDTO>> badCredencialsHandler(BadCredentialsException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(List.of(new ErrorMessageResponseDTO("Invalid credentials")));
+    }
+
+    @ExceptionHandler(SignatureVerificationException.class)
+    private ResponseEntity<List<ErrorMessageResponseDTO>> signatureVerificationHandler(SignatureVerificationException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(List.of(new ErrorMessageResponseDTO("Invalid token")));
     }
 
     @ExceptionHandler(Exception.class)

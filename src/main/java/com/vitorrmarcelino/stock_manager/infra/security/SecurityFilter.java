@@ -35,9 +35,22 @@ public class SecurityFilter extends OncePerRequestFilter {
                 UserDetails user = userRepository.findByEmail(email);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }catch (JWTVerificationException e){
-                throw new JWTVerificationException("Invalid token", e);
+            }catch (JWTVerificationException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+
+                String jsonResponse = """
+                    [
+                        {"message": "Invalid or expired token"}
+                    ]
+                """;
+
+                response.getWriter().write(jsonResponse);
+                response.getWriter().flush();
+                return;
             }
+
         }
         filterChain.doFilter(request, response);
     }

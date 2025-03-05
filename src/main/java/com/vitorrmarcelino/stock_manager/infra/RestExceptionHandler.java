@@ -1,8 +1,5 @@
 package com.vitorrmarcelino.stock_manager.infra;
 
-import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.vitorrmarcelino.stock_manager.dto.ErrorMessageResponseDTO;
 import com.vitorrmarcelino.stock_manager.exception.CnpjAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.EmailAlreadyUsedException;
@@ -42,12 +39,6 @@ public class RestExceptionHandler {
     private ResponseEntity<List<ErrorMessageResponseDTO>> badCredencialsHandler(BadCredentialsException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(List.of(new ErrorMessageResponseDTO("Invalid credentials")));
-    }
-
-    @ExceptionHandler(SignatureVerificationException.class)
-    private ResponseEntity<List<ErrorMessageResponseDTO>> signatureVerificationHandler(SignatureVerificationException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(List.of(new ErrorMessageResponseDTO("Invalid token")));
     }
 
     @ExceptionHandler(Exception.class)

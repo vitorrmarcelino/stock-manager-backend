@@ -5,6 +5,9 @@ import com.vitorrmarcelino.stock_manager.dto.user.AuthenticationResponseDTO;
 import com.vitorrmarcelino.stock_manager.model.User;
 import com.vitorrmarcelino.stock_manager.repository.UserRepository;
 import com.vitorrmarcelino.stock_manager.service.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,13 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    @Operation(description = "Endpoint responsible for user login")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login success"),
+            @ApiResponse(responseCode = "401", description = "Invalid Credentials"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
+    })
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationRequestDTO data){
         UsernamePasswordAuthenticationToken emailPassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());

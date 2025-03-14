@@ -1,6 +1,5 @@
 package com.vitorrmarcelino.stock_manager.infra.security;
 
-import com.vitorrmarcelino.stock_manager.infra.RestExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +30,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "api/admin").hasRole("SUPER")
                         .requestMatchers(HttpMethod.POST, "api/company/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/auth/login").permitAll()
-                        .requestMatchers("/v3/api-docs/*", "/swagger-ui.html", "/swagger-ui/*").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class)

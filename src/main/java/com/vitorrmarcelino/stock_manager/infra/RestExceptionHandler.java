@@ -2,6 +2,7 @@ package com.vitorrmarcelino.stock_manager.infra;
 
 import com.vitorrmarcelino.stock_manager.dto.ErrorMessageResponseDTO;
 import com.vitorrmarcelino.stock_manager.exception.CnpjAlreadyUsedException;
+import com.vitorrmarcelino.stock_manager.exception.CpfAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.EmailAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.PasswordsDoesntMatchException;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,12 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(CnpjAlreadyUsedException.class)
     private ResponseEntity<List<ErrorMessageResponseDTO>> cnpjAlreadyUsedHandler(CnpjAlreadyUsedException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(List.of(new ErrorMessageResponseDTO(e.getMessage())));
+    }
+
+    @ExceptionHandler(CpfAlreadyUsedException.class)
+    private ResponseEntity<List<ErrorMessageResponseDTO>> cnpjAlreadyUsedHandler(CpfAlreadyUsedException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(List.of(new ErrorMessageResponseDTO(e.getMessage())));
     }

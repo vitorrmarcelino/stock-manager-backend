@@ -4,6 +4,7 @@ import com.vitorrmarcelino.stock_manager.dto.company.CompanySimpleResponseDTO;
 import com.vitorrmarcelino.stock_manager.dto.employee.EmployeeRequestDTO;
 import com.vitorrmarcelino.stock_manager.dto.employee.EmployeeSimpleResponseDTO;
 import com.vitorrmarcelino.stock_manager.exception.CnpjAlreadyUsedException;
+import com.vitorrmarcelino.stock_manager.exception.CpfAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.EmailAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.PasswordsDoesntMatchException;
 import com.vitorrmarcelino.stock_manager.model.Company;
@@ -58,8 +59,8 @@ public class EmployeeService {
             return new EmployeeSimpleResponseDTO(data.name(), employee.getCpf(), data.email());
         } catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause().getMessage();
-            if (errorMessage.contains("company_company_cnpj_key")) {
-                throw new CnpjAlreadyUsedException();
+            if (errorMessage.contains("employee_employee_cpf_key")) {
+                throw new CpfAlreadyUsedException();
             } else if (errorMessage.contains("user_user_email_key")) {
                 throw new EmailAlreadyUsedException();
             }

@@ -3,6 +3,7 @@ package com.vitorrmarcelino.stock_manager.controller;
 import com.vitorrmarcelino.stock_manager.dto.ErrorMessageResponseDTO;
 import com.vitorrmarcelino.stock_manager.dto.company.CompanyRequestDTO;
 import com.vitorrmarcelino.stock_manager.dto.company.CompanySimpleResponseDTO;
+import com.vitorrmarcelino.stock_manager.dto.company.CompanyUpdateRequestDTO;
 import com.vitorrmarcelino.stock_manager.exception.EmailAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.PasswordsDoesntMatchException;
 import com.vitorrmarcelino.stock_manager.service.CompanyService;
@@ -37,6 +38,12 @@ public class CompanyController {
     @GetMapping("/teste")
     public ResponseEntity teste(){
         return ResponseEntity.ok("Hello World!");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity updateCompany(@Valid @RequestBody CompanyUpdateRequestDTO companyUpdateRequestDTO){
+        CompanySimpleResponseDTO res = companyService.updateCompany(companyUpdateRequestDTO);
+        return ResponseEntity.ok(res);
     }
 
 }

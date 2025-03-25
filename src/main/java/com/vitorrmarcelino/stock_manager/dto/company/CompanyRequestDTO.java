@@ -3,7 +3,6 @@ package com.vitorrmarcelino.stock_manager.dto.company;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 public record CompanyRequestDTO(@NotBlank(message = "All fields must be filled in") String name,

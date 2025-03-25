@@ -24,7 +24,7 @@ public class Employee {
     @Column(name = "employee_name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "employee_cpf", length = 11, nullable = false)
+    @Column(name = "employee_cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
     @OneToOne

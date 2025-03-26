@@ -31,10 +31,10 @@ public class User implements UserDetails {
     @Column(name = "user_is_super")
     private Boolean isSuper;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Company company;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private  Employee employee;
 
     @Override

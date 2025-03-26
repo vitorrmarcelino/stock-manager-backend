@@ -23,14 +23,14 @@ public class Stock {
     @Column(name = "stock_name", length = 20, nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_company_fk", nullable = false)
     private Company company;
 
-    @OneToMany(mappedBy = "stock")
+    @OneToMany(mappedBy = "stock",cascade = CascadeType.ALL)
     private List<StockProduct> ProductsInThisStock;
 
-    @ManyToMany(mappedBy = "stocksWithAccess")
+    @ManyToMany(mappedBy = "stocksWithAccess",cascade = CascadeType.ALL)
     private List<Employee> employeesWithAccess;
 
 }

@@ -23,10 +23,10 @@ public class Product {
     @Column(name = "product_name", length = 50, nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_company_fk", nullable = false)
     private Company company;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<StockProduct> stocksWithThisProduct;
 }

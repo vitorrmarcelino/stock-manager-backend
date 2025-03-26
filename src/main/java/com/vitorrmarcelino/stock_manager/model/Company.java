@@ -23,16 +23,16 @@ public class Company {
     @Column(name = "company_cnpj", length = 14, nullable = false, unique = true)
     private String cnpj;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_user_fk", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
     private List<Product> products;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Stock> stocks;
 }

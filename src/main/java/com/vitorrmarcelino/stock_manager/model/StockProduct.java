@@ -23,14 +23,14 @@ public class StockProduct {
     @Column(name = "stock_product_qty", nullable = false)
     private Integer qty;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_product_stock_fk", nullable = false)
     private Stock stock;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_product_product_fk", nullable = false)
     private Product product;
 
-    @OneToMany(mappedBy = "stockProduct")
+    @OneToMany(mappedBy = "stockProduct", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 }

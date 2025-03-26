@@ -27,7 +27,7 @@ public class Employee {
     @Column(name = "employee_cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_user_fk", nullable = false)
     private User user;
 

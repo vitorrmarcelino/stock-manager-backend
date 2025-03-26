@@ -1,12 +1,10 @@
 package com.vitorrmarcelino.stock_manager.service;
 
 import com.vitorrmarcelino.stock_manager.dto.company.CompanySimpleResponseDTO;
+import com.vitorrmarcelino.stock_manager.dto.company.CompanyUpdateRequestDTO;
 import com.vitorrmarcelino.stock_manager.dto.employee.EmployeeRequestDTO;
 import com.vitorrmarcelino.stock_manager.dto.employee.EmployeeSimpleResponseDTO;
-import com.vitorrmarcelino.stock_manager.exception.CnpjAlreadyUsedException;
-import com.vitorrmarcelino.stock_manager.exception.CpfAlreadyUsedException;
-import com.vitorrmarcelino.stock_manager.exception.EmailAlreadyUsedException;
-import com.vitorrmarcelino.stock_manager.exception.PasswordsDoesntMatchException;
+import com.vitorrmarcelino.stock_manager.exception.*;
 import com.vitorrmarcelino.stock_manager.model.Company;
 import com.vitorrmarcelino.stock_manager.model.Employee;
 import com.vitorrmarcelino.stock_manager.model.User;
@@ -40,8 +38,9 @@ public class EmployeeService {
             User userCompany = (User)principal;
 
             Company company = companyRepository.findByUser((User) userCompany);
+
             if(company == null){
-                throw new PasswordsDoesntMatchException("teste");
+                throw new CompanyNotFoundException();
             }
             User user = new User();
             user.setEmail(data.email());
@@ -58,6 +57,38 @@ public class EmployeeService {
 
             return new EmployeeSimpleResponseDTO(data.name(), employee.getCpf(), data.email());
         } catch (DataIntegrityViolationException e) {
+            String errorMessage = e.getRootCause().getMessage();
+            if (errorMessage.contains("employee_employee_cpf_key")) {
+                throw new CpfAlreadyUsedException();
+            } else if (errorMessage.contains("user_user_email_key")) {
+                throw new EmailAlreadyUsedException();
+            }
+            throw e;
+        }
+    }
+
+    @Transactional
+    public EmployeeSimpleResponseDTO updateEmployee(EmployeeRequestDTO data){
+        try{
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            User user = (User)principal;
+
+            Employee employee = employeeRepository.findByUser(user);
+
+            if(employee==null){
+                throw new EmployeeNotFoundException();
+            }
+
+            user.setEmail(data.email());
+            employee.setName(data.name());
+            employee.setCpf(data.cpf().replaceAll("\\D", ""));
+
+            userRepository.save(user);
+            employeeRepository.save(employee);
+
+            return new EmployeeSimpleResponseDTO(employee.getName(), employee.getCpf(), user.getEmail());
+        }catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause().getMessage();
             if (errorMessage.contains("employee_employee_cpf_key")) {
                 throw new CpfAlreadyUsedException();

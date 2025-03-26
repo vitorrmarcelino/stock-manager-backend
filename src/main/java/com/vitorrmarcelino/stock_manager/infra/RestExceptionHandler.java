@@ -1,10 +1,7 @@
 package com.vitorrmarcelino.stock_manager.infra;
 
 import com.vitorrmarcelino.stock_manager.dto.ErrorMessageResponseDTO;
-import com.vitorrmarcelino.stock_manager.exception.CnpjAlreadyUsedException;
-import com.vitorrmarcelino.stock_manager.exception.CpfAlreadyUsedException;
-import com.vitorrmarcelino.stock_manager.exception.EmailAlreadyUsedException;
-import com.vitorrmarcelino.stock_manager.exception.PasswordsDoesntMatchException;
+import com.vitorrmarcelino.stock_manager.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,6 +15,18 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestExceptionHandler {
+
+    @ExceptionHandler(CompanyNotFoundException.class)
+    private ResponseEntity<List<ErrorMessageResponseDTO>> companyNotFoundHandler(CompanyNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(List.of(new ErrorMessageResponseDTO(e.getMessage())));
+    }
+
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    private ResponseEntity<List<ErrorMessageResponseDTO>> employeeNotFoundHandler(EmployeeNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(List.of(new ErrorMessageResponseDTO(e.getMessage())));
+    }
 
     @ExceptionHandler(EmailAlreadyUsedException.class)
     private ResponseEntity<List<ErrorMessageResponseDTO>> emailAlreadyUsedHandler(EmailAlreadyUsedException e) {

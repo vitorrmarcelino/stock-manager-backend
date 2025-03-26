@@ -4,6 +4,7 @@ import com.vitorrmarcelino.stock_manager.dto.company.CompanyRequestDTO;
 import com.vitorrmarcelino.stock_manager.dto.company.CompanySimpleResponseDTO;
 import com.vitorrmarcelino.stock_manager.dto.company.CompanyUpdateRequestDTO;
 import com.vitorrmarcelino.stock_manager.exception.CnpjAlreadyUsedException;
+import com.vitorrmarcelino.stock_manager.exception.CompanyNotFoundException;
 import com.vitorrmarcelino.stock_manager.exception.EmailAlreadyUsedException;
 import com.vitorrmarcelino.stock_manager.exception.PasswordsDoesntMatchException;
 import com.vitorrmarcelino.stock_manager.model.Company;
@@ -65,6 +66,10 @@ public class CompanyService {
             User userCompany = (User)principal;
 
             Company company = companyRepository.findByUser(userCompany);
+
+            if(company == null){
+                throw new CompanyNotFoundException();
+            }
 
             userCompany.setEmail(data.email());
             company.setName(data.name());

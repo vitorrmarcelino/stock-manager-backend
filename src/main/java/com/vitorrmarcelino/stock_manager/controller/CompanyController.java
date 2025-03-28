@@ -46,4 +46,10 @@ public class CompanyController {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping
+    public ResponseEntity getCompany(){
+        CompanySimpleResponseDTO res = companyService.getCompany();
+        return ResponseEntity.ok(res);
+    }
+
 }

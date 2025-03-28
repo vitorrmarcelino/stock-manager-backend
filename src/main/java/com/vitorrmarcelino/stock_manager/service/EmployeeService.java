@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EmployeeService {
     @Autowired
@@ -97,5 +99,34 @@ public class EmployeeService {
             }
             throw e;
         }
+    }
+
+    public EmployeeSimpleResponseDTO getEmployee(Integer id){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User)principal;
+
+        if(id == null){
+            Employee employee = employeeRepository.findByUser(user);
+
+            if(employee == null){
+                throw new EmployeeNotFoundException();
+            }
+
+            return new EmployeeSimpleResponseDTO(employee.getName(), employee.getCpf(), user.getEmail());
+        }
+
+        Company company = companyRepository.findByUser(user);
+
+        if(company == null){
+            throw new CompanyNotFoundException("You must be a company");
+        }
+
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException());
+
+        if(employee.getCompany()!= company){
+            throw new EmployeeNotFoundException("This employee isn't your");
+        }
+
+        return new EmployeeSimpleResponseDTO(employee.getName(), employee.getCpf(), employee.getUser().getEmail());
     }
 }

@@ -90,6 +90,20 @@ public class CompanyService {
         }
     }
 
+    public CompanySimpleResponseDTO getCompany(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User userCompany = (User)principal;
+
+        Company company = companyRepository.findByUser(userCompany);
+
+        if(company == null){
+            throw new CompanyNotFoundException();
+        }
+
+        return new CompanySimpleResponseDTO(company.getName(), company.getCnpj(), userCompany.getEmail());
+    }
+
 
 
 

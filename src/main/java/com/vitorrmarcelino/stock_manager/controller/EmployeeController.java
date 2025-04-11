@@ -20,13 +20,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @Operation(description = "Endpoint responsible for creating new employees")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employee created successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "403", description = "Unnauthorized"),
-            @ApiResponse(responseCode = "500", description = "Internal server error"),
-    })
     @PostMapping("/register")
     public ResponseEntity createEmployee(@Valid @RequestBody EmployeeRequestDTO employeeRequestDTO){
         EmployeeSimpleResponseDTO res =  employeeService.createEmployee(employeeRequestDTO);

@@ -23,12 +23,6 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    @Operation(description = "Endpoint responsible for creating new companies")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Company created successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "500", description = "Internal server error"),
-    })
     @PostMapping("/register")
     public ResponseEntity createCompany(@Valid @RequestBody CompanyRequestDTO companyRequestDTO){
             CompanySimpleResponseDTO res = companyService.createCompany(companyRequestDTO);

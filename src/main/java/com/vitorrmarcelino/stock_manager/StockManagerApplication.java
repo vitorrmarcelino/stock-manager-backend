@@ -8,15 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@SecurityScheme(
-		name = "Bearer Authentication",
-		type = SecuritySchemeType.HTTP,
-		bearerFormat = "JWT",
-		scheme = "bearer"
-)
-@OpenAPIDefinition(
-		info = @Info(title = "Stock Manager API", version = "1.0")
-)
 public class StockManagerApplication {
 
 	public static void main(String[] args) {

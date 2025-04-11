@@ -124,7 +124,7 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException());
 
         if(employee.getCompany()!= company){
-            throw new EmployeeNotFoundException("This employee isn't your");
+            throw new EmployeeNotFoundException("This employee isn't yours");
         }
 
         return new EmployeeSimpleResponseDTO(employee.getName(), employee.getCpf(), employee.getUser().getEmail());

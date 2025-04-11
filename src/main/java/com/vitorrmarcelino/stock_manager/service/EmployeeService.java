@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,7 @@ public class EmployeeService {
             Company company = companyRepository.findByUser((User) userCompany);
 
             if(company == null){
-                throw new CompanyNotFoundException();
+                throw new CompanyNotFoundException("You must be a company");
             }
             User user = new User();
             user.setEmail(data.email());
@@ -57,7 +58,7 @@ public class EmployeeService {
             employee.setCompany(company);
             employeeRepository.save(employee);
 
-            return new EmployeeSimpleResponseDTO(data.name(), employee.getCpf(), data.email());
+            return new EmployeeSimpleResponseDTO(employee.getId(), data.name(), employee.getCpf(), data.email());
         } catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause().getMessage();
             if (errorMessage.contains("employee_employee_cpf_key")) {
@@ -89,7 +90,7 @@ public class EmployeeService {
             userRepository.save(user);
             employeeRepository.save(employee);
 
-            return new EmployeeSimpleResponseDTO(employee.getName(), employee.getCpf(), user.getEmail());
+            return new EmployeeSimpleResponseDTO(employee.getId(), employee.getName(), employee.getCpf(), user.getEmail());
         }catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause().getMessage();
             if (errorMessage.contains("employee_employee_cpf_key")) {
@@ -112,7 +113,7 @@ public class EmployeeService {
                 throw new EmployeeNotFoundException();
             }
 
-            return new EmployeeSimpleResponseDTO(employee.getName(), employee.getCpf(), user.getEmail());
+            return new EmployeeSimpleResponseDTO(employee.getId(), employee.getName(), employee.getCpf(), user.getEmail());
         }
 
         Company company = companyRepository.findByUser(user);
@@ -127,6 +128,21 @@ public class EmployeeService {
             throw new EmployeeNotFoundException("This employee isn't yours");
         }
 
-        return new EmployeeSimpleResponseDTO(employee.getName(), employee.getCpf(), employee.getUser().getEmail());
+        return new EmployeeSimpleResponseDTO(employee.getId(), employee.getName(), employee.getCpf(), employee.getUser().getEmail());
+    }
+
+    public List<EmployeeSimpleResponseDTO> getAllEmployees(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User)principal;
+
+        Company company = companyRepository.findByUser(user);
+
+        if(company == null){
+            throw new CompanyNotFoundException("You must be a company");
+        }
+
+        List<Employee> employees = employeeRepository.findAllByCompany(company);
+
+        return employees.stream().map(employee -> new EmployeeSimpleResponseDTO(employee.getId(), employee.getName(), employee.getCpf(), employee.getUser().getEmail())).toList();
     }
 }

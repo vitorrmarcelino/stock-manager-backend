@@ -5,9 +5,6 @@ import com.vitorrmarcelino.stock_manager.dto.company.CompanySimpleResponseDTO;
 import com.vitorrmarcelino.stock_manager.dto.employee.EmployeeRequestDTO;
 import com.vitorrmarcelino.stock_manager.dto.employee.EmployeeSimpleResponseDTO;
 import com.vitorrmarcelino.stock_manager.service.EmployeeService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,11 +35,17 @@ public class EmployeeController {
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping
+    @GetMapping("/me")
     public ResponseEntity getEmployee(){
         Integer id = null;
         EmployeeSimpleResponseDTO res = employeeService.getEmployee(id);
         return ResponseEntity.ok(res);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity getAllEmployees(){
+        return ResponseEntity.ok(employeeService.getAllEmployees());
+    }
+
 
 }

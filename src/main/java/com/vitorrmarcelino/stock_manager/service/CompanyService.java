@@ -46,7 +46,7 @@ public class CompanyService {
             company.setUser(user);
             companyRepository.save(company);
 
-            return new CompanySimpleResponseDTO(data.name(), company.getCnpj(), data.email());
+            return new CompanySimpleResponseDTO(company.getId(), data.name(), company.getCnpj(), data.email());
         } catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause().getMessage();
             if (errorMessage.contains("company_company_cnpj_key")) {
@@ -78,7 +78,7 @@ public class CompanyService {
             userRepository.save(userCompany);
             companyRepository.save(company);
 
-            return new CompanySimpleResponseDTO(company.getName(), company.getCnpj(), userCompany.getEmail());
+            return new CompanySimpleResponseDTO(company.getId(), company.getName(), company.getCnpj(), userCompany.getEmail());
         }catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause().getMessage();
             if (errorMessage.contains("company_company_cnpj_key")) {
@@ -101,7 +101,7 @@ public class CompanyService {
             throw new CompanyNotFoundException();
         }
 
-        return new CompanySimpleResponseDTO(company.getName(), company.getCnpj(), userCompany.getEmail());
+        return new CompanySimpleResponseDTO(company.getId(), company.getName(), company.getCnpj(), userCompany.getEmail());
     }
 
 

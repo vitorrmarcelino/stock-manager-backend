@@ -26,11 +26,6 @@ public class CompanyController {
             return ResponseEntity.ok(res);
     }
 
-    @GetMapping("/teste")
-    public ResponseEntity teste(){
-        return ResponseEntity.ok("Hello World!");
-    }
-
     @PutMapping("/update")
     public ResponseEntity updateCompany(@Valid @RequestBody CompanyUpdateRequestDTO companyUpdateRequestDTO){
         CompanySimpleResponseDTO res = companyService.updateCompany(companyUpdateRequestDTO);

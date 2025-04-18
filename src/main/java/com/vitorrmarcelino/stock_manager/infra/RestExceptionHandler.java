@@ -28,6 +28,12 @@ public class RestExceptionHandler {
                 .body(List.of(new ErrorMessageResponseDTO(e.getMessage())));
     }
 
+    @ExceptionHandler(StockNotFoundException.class)
+    private ResponseEntity<List<ErrorMessageResponseDTO>> stockNotFoundHandler(StockNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(List.of(new ErrorMessageResponseDTO(e.getMessage())));
+    }
+
     @ExceptionHandler(EmailAlreadyUsedException.class)
     private ResponseEntity<List<ErrorMessageResponseDTO>> emailAlreadyUsedHandler(EmailAlreadyUsedException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

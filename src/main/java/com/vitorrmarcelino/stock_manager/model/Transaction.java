@@ -22,7 +22,10 @@ public class Transaction {
     @Column(name = "transaction_type", nullable = false)
     private TransactionTypeEnum type;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @Column(name = "transaction_qty", nullable = false)
+    private Integer qty;
+
+    @ManyToOne
     @JoinColumn(name="transaction_stock_product_fk")
     private StockProduct stockProduct;
 }

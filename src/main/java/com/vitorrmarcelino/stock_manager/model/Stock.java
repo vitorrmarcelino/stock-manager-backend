@@ -23,7 +23,7 @@ public class Stock {
     @Column(name = "stock_name", length = 20, nullable = false)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "stock_company_fk", nullable = false)
     private Company company;
 

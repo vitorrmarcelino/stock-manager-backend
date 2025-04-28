@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/stock")
+@RequestMapping("/api/stocks")
 public class StockController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class StockController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("all")
+    @GetMapping
     public ResponseEntity getAllStocks() {
         List<StockResponseDTO> res = stockService.getAllStocks();
         return ResponseEntity.ok(res);
@@ -44,6 +44,12 @@ public class StockController {
     @GetMapping("/{id}")
     public ResponseEntity getStock(@PathVariable Integer id) {
         StockResponseDTO res = stockService.getStock(id);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/{id}/permissions")
+    public ResponseEntity authorizeEmployees(@PathVariable Integer id, @RequestBody List<Integer> employeesId) {
+        StockResponseDTO res = stockService.authorizeEmployees(id, employeesId);
         return ResponseEntity.ok(res);
     }
 }

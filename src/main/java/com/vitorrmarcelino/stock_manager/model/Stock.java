@@ -30,7 +30,12 @@ public class Stock {
     @OneToMany(mappedBy = "stock",cascade = CascadeType.ALL)
     private List<StockProduct> ProductsInThisStock;
 
-    @ManyToMany(mappedBy = "stocksWithAccess",cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "stock_employee",
+            joinColumns = @JoinColumn(name="stock_employee_stock_fk"),
+            inverseJoinColumns = @JoinColumn(name = "stock_employee_employee_fk")
+    )
     private List<Employee> employeesWithAccess;
 
 }

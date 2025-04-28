@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.MethodNotAllowedException;
 
 @RestController
-@RequestMapping("/api/company")
+@RequestMapping("/api/companies")
 public class CompanyController {
 
     @Autowired

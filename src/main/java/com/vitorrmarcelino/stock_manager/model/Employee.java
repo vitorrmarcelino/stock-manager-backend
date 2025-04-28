@@ -35,11 +35,6 @@ public class Employee {
     @JoinColumn(name = "employee_company_fk", nullable = false)
     private Company company;
 
-    @ManyToMany
-    @JoinTable(
-            name = "stock_employee",
-            joinColumns = @JoinColumn(name="stock_employee_employee_fk"),
-            inverseJoinColumns = @JoinColumn(name = "stock_employee_stock_fk")
-    )
+    @ManyToMany(mappedBy = "employeesWithAccess", cascade = CascadeType.ALL)
     private List<Stock> stocksWithAccess;
 }

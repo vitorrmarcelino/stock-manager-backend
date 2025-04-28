@@ -20,20 +20,20 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity createCompany(@Valid @RequestBody CompanyRequestDTO companyRequestDTO){
             CompanySimpleResponseDTO res = companyService.createCompany(companyRequestDTO);
             return ResponseEntity.ok(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity updateCompany(@Valid @RequestBody CompanyUpdateRequestDTO companyUpdateRequestDTO){
         CompanySimpleResponseDTO res = companyService.updateCompany(companyUpdateRequestDTO);
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping
-    public ResponseEntity getCompany(){
+    @GetMapping("me")
+    public ResponseEntity getOwnCompany(){
         CompanySimpleResponseDTO res = companyService.getCompany();
         return ResponseEntity.ok(res);
     }

@@ -17,13 +17,13 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity createEmployee(@Valid @RequestBody EmployeeRequestDTO employeeRequestDTO){
         EmployeeSimpleResponseDTO res =  employeeService.createEmployee(employeeRequestDTO);
         return ResponseEntity.ok(res);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity updateEmployee(@Valid @RequestBody EmployeeRequestDTO employeeRequestDTO){
         EmployeeSimpleResponseDTO res = employeeService.updateEmployee(employeeRequestDTO);
         return ResponseEntity.ok(res);
@@ -42,7 +42,7 @@ public class EmployeeController {
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity getAllEmployees(){
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }

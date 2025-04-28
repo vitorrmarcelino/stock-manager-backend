@@ -17,19 +17,19 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity createStock(@Valid @RequestBody StockRequestDTO stockRequestDTO) {
         StockResponseDTO res = stockService.createStock(stockRequestDTO);
         return ResponseEntity.ok(res);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity updateStock(@Valid @RequestBody StockRequestDTO stockRequestDTO, @PathVariable Integer id) {
         StockResponseDTO res = stockService.updateStock(stockRequestDTO, id);
         return ResponseEntity.ok(res);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteStock(@PathVariable Integer id) {
         stockService.deleteStock(id);
         return ResponseEntity.ok().build();

@@ -318,9 +318,18 @@ public class StockService {
 
         Stock stock = stockRepository.findById(id).orElseThrow(() -> new StockNotFoundException());
 
+        if(company==null){
+            if(stock.getEmployeesWithAccess().contains(employee)){
+                company = employee.getCompany();
+            }else{
+                throw new StockNotFoundException();
+            }
+        }
+
         if(!stock.getCompany().getId().equals(company.getId()) && !stock.getEmployeesWithAccess().contains(employee)){
             throw new StockNotFoundException();
         }
+
 
         Transaction transaction = new Transaction();
         transaction.setType(data.type());

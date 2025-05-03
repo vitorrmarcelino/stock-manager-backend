@@ -33,4 +33,16 @@ public class ProductController {
         ProductSimpleResponseDTO res = productService.getProduct(id);
         return ResponseEntity.ok(res);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateProduct(@PathVariable Integer id, @Valid @RequestBody ProductRequestDTO productRequestDTO){
+        ProductSimpleResponseDTO res = productService.updateProduct(productRequestDTO, id);
+        return ResponseEntity.ok(res);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct(@PathVariable Integer id){
+        productService.deleteProduct(id);
+        return ResponseEntity.ok().build();
+    }
 }

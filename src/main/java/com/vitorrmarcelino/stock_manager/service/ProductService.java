@@ -87,4 +87,49 @@ public class ProductService {
 
         return new ProductSimpleResponseDTO(product.getId(), product.getName());
     }
+
+    public ProductSimpleResponseDTO updateProduct(ProductRequestDTO data, Integer id){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User userCompany = (User)principal;
+
+        Company company = companyRepository.findByUser((User) userCompany);
+
+        if(company == null){
+            throw new CompanyNotFoundException("You must be a company");
+        }
+
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException());
+
+        if(!product.getCompany().getId().equals(company.getId())){
+            throw new ProductNotFoundException();
+        }
+
+        product.setName(data.name());
+
+        productRepository.save(product);
+
+
+        return new ProductSimpleResponseDTO(product.getId(), product.getName());
+    }
+
+    public void deleteProduct(Integer id){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User userCompany = (User)principal;
+
+        Company company = companyRepository.findByUser((User) userCompany);
+
+        if(company == null){
+            throw new CompanyNotFoundException("You must be a company");
+        }
+
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException());
+
+        if(!product.getCompany().getId().equals(company.getId())){
+            throw new ProductNotFoundException();
+        }
+
+        productRepository.delete(product);
+    }
 }

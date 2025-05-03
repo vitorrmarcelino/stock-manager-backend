@@ -1,5 +1,6 @@
 package com.vitorrmarcelino.stock_manager.controller;
 
+import com.vitorrmarcelino.stock_manager.dto.product.ProductTransactionRequestDTO;
 import com.vitorrmarcelino.stock_manager.dto.stock.StockRequestDTO;
 import com.vitorrmarcelino.stock_manager.dto.stock.StockResponseDTO;
 import com.vitorrmarcelino.stock_manager.service.StockService;
@@ -56,6 +57,12 @@ public class StockController {
     @DeleteMapping("/{id}/permissions")
     public ResponseEntity revokeEmployees(@PathVariable Integer id, @RequestBody List<Integer> employeesId) {
         StockResponseDTO res = stockService.revokeEmployees(id, employeesId);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/{id}/products")
+    public ResponseEntity productTrasaction(@PathVariable Integer id, @Valid @RequestBody ProductTransactionRequestDTO productTransactionRequestDTO) {
+        StockResponseDTO res = stockService.productTransaction(id, productTransactionRequestDTO);
         return ResponseEntity.ok(res);
     }
 }

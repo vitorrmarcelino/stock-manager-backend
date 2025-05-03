@@ -19,6 +19,7 @@ public class Transaction {
     @Column(name = "transaction_id")
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type", nullable = false)
     private TransactionTypeEnum type;
 

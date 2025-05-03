@@ -52,4 +52,10 @@ public class StockController {
         StockResponseDTO res = stockService.authorizeEmployees(id, employeesId);
         return ResponseEntity.ok(res);
     }
+
+    @DeleteMapping("/{id}/permissions")
+    public ResponseEntity revokeEmployees(@PathVariable Integer id, @RequestBody List<Integer> employeesId) {
+        StockResponseDTO res = stockService.revokeEmployees(id, employeesId);
+        return ResponseEntity.ok(res);
+    }
 }

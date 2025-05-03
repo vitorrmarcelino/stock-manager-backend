@@ -208,4 +208,46 @@ public class StockService {
 
         return new StockResponseDTO(stock.getId(), stock.getName(), listOfEmployees);
     }
+
+    public StockResponseDTO revokeEmployees(Integer id, List<Integer> employeesId){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User userCompany = (User)principal;
+
+        Company company = companyRepository.findByUser((User) userCompany);
+
+        if(company == null){
+            throw new CompanyNotFoundException("You must be a company");
+        }
+
+        Stock stock = stockRepository.findById(id).orElseThrow(() -> new StockNotFoundException());
+
+        if(!stock.getCompany().getId().equals(company.getId())){
+            throw new StockNotFoundException();
+        }
+
+        List<Employee> employeesToRemove = employeeRepository.findByIdIn(employeesId);
+
+        List<Employee> currentEmployees = stock.getEmployeesWithAccess();
+
+        for (Employee employee : employeesToRemove) {
+            if (currentEmployees.contains(employee)) {
+                currentEmployees.remove(employee);
+            }
+        }
+
+        stock.setEmployeesWithAccess(currentEmployees);
+
+        List<EmployeeSimpleResponseDTO> listOfEmployees;
+
+        if(currentEmployees!=null){
+            listOfEmployees = stock.getEmployeesWithAccess().stream().map(employee -> new EmployeeSimpleResponseDTO(employee.getId(), employee.getName(), employee.getCpf(), employee.getUser().getEmail())).toList();
+        } else {
+            listOfEmployees = Collections.emptyList();
+        }
+
+        stockRepository.save(stock);
+
+        return new StockResponseDTO(stock.getId(), stock.getName(), listOfEmployees);
+    }
 }
